@@ -32,7 +32,7 @@ public class MainHell {
 		};
 
 DocumentService.find("userId", new Callback<List<Document>>() {
-public void onSuccess(List<Document> result) {
+public void onSuccess(List<Document> result) throws InterruptedException {
 	final List<String> jsonList = new ArrayList<String>(10);
 	int taken = 0;
 	for (Document doc : result) {
@@ -46,7 +46,7 @@ public void onSuccess(List<Document> result) {
 		jsonBuffer.appendInt("id", doc.getId());
 		jsonBuffer.append("text", doc.getText());
 		CommentService.findForDoc(doc, new Callback<List<Comment>>() {
-			public void onSuccess(List<Comment> comments) {
+			public void onSuccess(List<Comment> comments) throws InterruptedException {
 				final JsonArray commentArray = new JsonArray();
 				CountDownLatch userLatch = new CountDownLatch(comments.size());
 				for (Comment c : comments) {
